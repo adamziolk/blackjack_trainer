@@ -13,11 +13,15 @@ def target_cards():
     return [custom_types.Card(v, s) for (v, s) in cards]
 
 @pytest.fixture
-def blank_table3():
-    p1 = custom_types.Player(id=0)
-    p2 = custom_types.Player(id=1)
-    p3 = custom_types.Player(id=2)
-    return custom_types.Table(players=[p1, p2, p3])
+def player_list():
+    p0 = custom_types.Player(id=0)
+    p1 = custom_types.Player(id=1)
+    p2 = custom_types.Player(id=2)
+    return [p0, p1, p2]
+
+@pytest.fixture
+def blank_table3(player_list):
+    return custom_types.Table(players=player_list)
 
 
 
@@ -27,12 +31,12 @@ def test_make_shoe__cards(target_cards):
     assert all(card in target_cards for card in actual_cards)
 
 
-def test_initialize_table(blank_table3):
-    actual_table = setup.initialize_table(num_players=3)
+def test_initialize_table(blank_table3, player_list):
+    actual_table = setup.initialize_table(players=player_list)
     assert blank_table3 == actual_table
 
 
-def test_deal_player_cards__all(blank_table3):
+def test_deal_player_cards__all(blank_table3, player_list):
     target_table = blank_table3
     target_table.players[0].cards = [custom_types.Card(12, 'H')]
     target_table.players[1].cards = [custom_types.Card(10, 'D')]
@@ -40,18 +44,18 @@ def test_deal_player_cards__all(blank_table3):
 
     random.seed(0)
     shoe = setup.make_shoe()
-    actual_table = setup.initialize_table(num_players=3)
+    actual_table = setup.initialize_table(players=player_list)
     setup.deal_player_cards(table=actual_table, shoe=shoe)
     assert target_table == actual_table
 
 
-def test_deal_player_cards__single(blank_table3):
+def test_deal_player_cards__single(blank_table3, player_list):
     target_table = blank_table3
     target_table.players[1].cards = [custom_types.Card(12, 'H')]
 
     random.seed(0)
     shoe = setup.make_shoe()
-    actual_table = setup.initialize_table(num_players=3)
+    actual_table = setup.initialize_table(players=player_list)
     setup.deal_player_cards(table=actual_table, shoe=shoe, player=actual_table.players[1])
     assert target_table == actual_table
 
@@ -63,13 +67,13 @@ def test_deal_player_cards__single(blank_table3):
     assert target_table == actual_table
 
 
-def test_deal_dealer_cards(blank_table3):
+def test_deal_dealer_cards(blank_table3, player_list):
     target_table = blank_table3
     target_table.dealer_cards = [custom_types.Card(12, 'H')]
 
     random.seed(0)
     shoe = setup.make_shoe()
-    actual_table = setup.initialize_table(num_players=3)
+    actual_table = setup.initialize_table(players=player_list)
     setup.deal_dealer_cards(table=actual_table, shoe=shoe)
     assert target_table == actual_table
 

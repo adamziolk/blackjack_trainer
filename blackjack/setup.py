@@ -15,8 +15,7 @@ def make_shoe(num_decks: int=1) -> Shoe:
     return shoe
 
 
-def initialize_table(num_players: int=1) -> Table:
-    players = [Player(id=id) for id in range(num_players)]
+def initialize_table(players) -> Table:
     table = Table(players=players)
 
     return table

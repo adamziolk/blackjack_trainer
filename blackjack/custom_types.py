@@ -1,3 +1,5 @@
+import setup
+
 class Card:
     def __init__(self, value, suit):
         self.value = value
@@ -24,6 +26,9 @@ class Player:
     def __init__(self, id):
         self.id = id
         self.cards = []
+
+    def hit(self):
+        setup.deal_player_cards()
 
     def __repr__(self):
         return f'{self.id} - {self.cards}'
