@@ -31,25 +31,32 @@ def test_initialize_table(blank_table3):
     assert blank_table3 == actual_table
 
 
-def test_deal_cards__all():
-    target_table = {0: [(12, 'H')], 1: [(10, 'D')], 2: [(1, 'S')], 'dealer': [(3, 'C')]}
+def test_deal_player_cards__all(blank_table3):
+    target_table = blank_table3
+    target_table.players[0].cards = [custom_types.Card(12, 'H')]
+    target_table.players[1].cards = [custom_types.Card(10, 'D')]
+    target_table.players[2].cards = [custom_types.Card(1, 'S')]
 
     random.seed(0)
     shoe = setup.make_shoe()
     actual_table = setup.initialize_table(num_players=3)
-    setup.deal_cards(table=actual_table, shoe=shoe)
+    setup.deal_player_cards(table=actual_table, shoe=shoe)
     assert target_table == actual_table
 
 
-# def test_deal_cards__single():
-#     target_table = {0: [], 1: [(12, 'H')], 2: [], 'dealer': []}
+def test_deal_player_cards__single(blank_table3):
+    target_table = blank_table3
+    target_table.players[1].cards = [custom_types.Card(12, 'H')]
 
-#     random.seed(0)
-#     shoe = setup.make_shoe()
-#     actual_table = setup.initialize_table(num_players=3)
-#     setup.deal_cards(table=actual_table, shoe=shoe, players=[1])
-#     assert target_table == actual_table
+    random.seed(0)
+    shoe = setup.make_shoe()
+    actual_table = setup.initialize_table(num_players=3)
+    setup.deal_player_cards(table=actual_table, shoe=shoe, player=actual_table.players[1])
+    assert target_table == actual_table
 
-#     target_table = {0: [(10, 'D')], 1: [(12, 'H'), (1, 'S')], 2: [], 'dealer': []}
-#     setup.deal_cards(table=actual_table, shoe=shoe, players=[0, 1])
-#     assert target_table == actual_table
+    target_table.players[0].cards = [custom_types.Card(10, 'D')]
+    target_table.players[1].cards = [custom_types.Card(12, 'H'), custom_types.Card(1, 'S')]
+    setup.deal_player_cards(table=actual_table, shoe=shoe, player=actual_table.players[0])
+    setup.deal_player_cards(table=actual_table, shoe=shoe, player=actual_table.players[1])
+
+    assert target_table == actual_table

@@ -4,7 +4,7 @@ class Card:
         self.suit = suit
 
     def __repr__(self):
-        return f':{self.value}, {self.suit}:'
+        return f'{self.value}, {self.suit}'
 
     def __eq__(self, other):
         if isinstance(self, other.__class__):
@@ -43,7 +43,7 @@ class Table:
         self.players = players
 
     def __repr__(self):
-        return f'{[p.id for p in self.players]}'
+        return f'DC: {self.dealer_cards} - {[(p.id, p.cards) for p in self.players]}'
 
     def __eq__(self, other):
         if isinstance(self, other.__class__):
