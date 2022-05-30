@@ -44,7 +44,3 @@ def test_deal_cards__single():
     actual_table = setup.initialize_table(num_players=3)
     setup.deal_cards(table=actual_table, shoe=shoe, players=[1])
     assert target_table == actual_table
-
-    target_table = {0: [(10, 'D')], 1: [(12, 'H'), (1, 'S')], 2: [], 'dealer': []}
-    setup.deal_cards(table=actual_table, shoe=shoe, players=[0, 1])
-    assert target_table == actual_table 
