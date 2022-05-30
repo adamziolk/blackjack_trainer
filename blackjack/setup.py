@@ -1,16 +1,14 @@
 import random
-from typing import Any, Optional
+from typing import Optional, Any
 
-Card = tuple[int, str]
-Shoe = list[Card]
-Hand = list[Card]
-Table = dict[Any, Hand]
+from custom_types import Card, Shoe, Table
+
 
 def make_shoe(num_decks: int=1) -> Shoe:
     suits = ['C', 'H', 'S', 'D']
     values = range(1, 14)
 
-    cards = [(v, s) for s in suits for v in values]
+    cards = [Card(v, s) for s in suits for v in values]
     shoe = cards * num_decks
     random.shuffle(shoe)
 
