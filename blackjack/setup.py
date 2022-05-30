@@ -1,7 +1,7 @@
 import random
 from typing import Optional, Any
 
-from custom_types import Card, Player, Shoe, Table
+from custom_types import Card, Shoe, Table
 
 
 def make_shoe(num_decks: int=1) -> Shoe:
@@ -16,15 +16,17 @@ def make_shoe(num_decks: int=1) -> Shoe:
 
 
 def initialize_table(num_players: int=1) -> Table:
-    players = [Player(id=id) for id in range(num_players)]
-    table = Table(players=players)
+    table = {}
+    for player in range(num_players):
+        table[player] = []
+    table['dealer'] = []
 
     return table
 
 
 def deal_cards(table: Table, shoe: Shoe, players: Optional[list[int]]=None) -> None:
     if not players:
-        players = [p.id for p in table.players]
+        players = table.keys()
 
     for player in players:
         table[player].append(shoe.pop())
