@@ -1,8 +1,6 @@
 import random
 from typing import Optional, Any
 
-from custom_types import Card, Player, Shoe, Table
-
 
 def make_shoe(num_decks: int=1) -> Shoe:
     suits = ['C', 'H', 'S', 'D']
