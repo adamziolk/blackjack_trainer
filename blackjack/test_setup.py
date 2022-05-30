@@ -1,3 +1,4 @@
+from itertools import accumulate
 import pytest
 import random
 
@@ -60,3 +61,20 @@ def test_deal_player_cards__single(blank_table3):
     setup.deal_player_cards(table=actual_table, shoe=shoe, player=actual_table.players[1])
 
     assert target_table == actual_table
+
+
+def test_deal_dealer_cards(blank_table3):
+    target_table = blank_table3
+    target_table.dealer_cards = [custom_types.Card(12, 'H')]
+
+    random.seed(0)
+    shoe = setup.make_shoe()
+    actual_table = setup.initialize_table(num_players=3)
+    setup.deal_dealer_cards(table=actual_table, shoe=shoe)
+    assert target_table == actual_table
+
+    target_table.dealer_cards = [custom_types.Card(12, 'H'), custom_types.Card(10, 'D')]
+    setup.deal_dealer_cards(table=actual_table, shoe=shoe)
+    assert target_table == actual_table
+
+

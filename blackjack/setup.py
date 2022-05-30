@@ -32,3 +32,9 @@ def deal_player_cards(table: Table, shoe: Shoe, player: Player=None) -> None:
         player.cards.append(shoe.pop())
 
     return
+
+
+def deal_dealer_cards(table: Table, shoe: Shoe) -> None:
+    table.dealer_cards.append(shoe.pop())
+
+    return
