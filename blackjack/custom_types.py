@@ -1,4 +1,9 @@
-import setup
+if __package__ is None or __package__ == '':
+    # uses current directory visibility
+    import setup
+else:
+    # uses current package visibility
+    import blackjack.setup as setup
 
 class Card:
     def __init__(self, value, suit):
@@ -6,7 +11,7 @@ class Card:
         self.suit = suit
 
     def __repr__(self):
-        return f'{self.value}, {self.suit}'
+        return f'{self.value}{self.suit}'
 
     def __eq__(self, other):
         if isinstance(self, other.__class__):
@@ -27,8 +32,8 @@ class Player:
         self.id = id
         self.cards = []
 
-    def hit(self):
-        setup.deal_player_cards()
+    def hit(self, table, shoe):
+        setup.deal_player_cards(table=table, shoe=shoe, player=self)
 
     def __repr__(self):
         return f'{self.id} - {self.cards}'
@@ -48,7 +53,7 @@ class Table:
         self.players = players
 
     def __repr__(self):
-        return f'DC: {self.dealer_cards} - {[(p.id, p.cards) for p in self.players]}'
+        return f'DC: {self.dealer_cards} :: {[f"{p.id} - {p.cards}" for p in self.players]}'
 
     def __eq__(self, other):
         if isinstance(self, other.__class__):

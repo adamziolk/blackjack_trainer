@@ -1,4 +1,3 @@
-from itertools import accumulate
 import pytest
 import random
 

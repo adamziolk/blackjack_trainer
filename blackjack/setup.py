@@ -1,7 +1,13 @@
 import random
 from typing import Optional, Any
 
-from custom_types import Shoe, Table, Card, Player
+if __package__ is None or __package__ == '':
+    # uses current directory visibility
+    from custom_types import Shoe, Table, Card, Player
+else:
+    # uses current package visibility
+    from blackjack.custom_types import Shoe, Table, Card, Player
+
 
 
 def make_shoe(num_decks: int=1) -> Shoe:
