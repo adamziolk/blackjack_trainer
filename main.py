@@ -29,13 +29,20 @@ def play_backjack(players, num_decks=1):
     # print('6', '\n', table)
     # print('7', '\n')
 
+    # setup.deal_player_cards(shoe, players=[p0, p1, p2])
+    # setup.deal_dealer_cards(table, shoe)
+    # players[0].hit(shoe)
+    # players[1].split()
+    # players[1].hit(shoe)
+    # players[1].split_hit(shoe)
+    # players[2].hit(shoe)
+    # io_functions.display_table(table)
+
     setup.deal_player_cards(shoe, players=[p0, p1, p2])
     setup.deal_dealer_cards(table, shoe)
     players[0].hit(shoe)
-    players[1].split()
-    players[1].hit(shoe)
-    players[1].split_hit(shoe)
-    players[2].hit(shoe)
+    io_functions.display_table(table)
+    io_functions.prompt_user(p1, shoe)
     io_functions.display_table(table)
 
 
