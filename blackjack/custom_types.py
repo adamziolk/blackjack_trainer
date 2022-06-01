@@ -9,7 +9,7 @@ class Card:
     def __init__(self, value, suit):
         self.value = value
         self.suit = suit
-        self.true_value = 10 if value in (11, 12, 13) else value
+        self.true_value = 10 if value in (11, 12, 13) else (11 if value == 1 else value)
 
     def __repr__(self):
         return f'{self.value}{self.suit}'
@@ -69,6 +69,25 @@ class Player:
             self.chips -= self.chips
         else:
             raise ValueError("Cannot double down")
+
+    def _check_aces(self):
+        if 1 in [c.value for c in self.cards]:
+            return True
+        return False
+
+    def hand_total(self):
+        start_val = sum([c.true_value for c in self.cards])
+        if not self._check_aces(): # No Aces
+            return start_val
+
+        current_vals = [c.true_value for c in self.cards]
+        while 11 in current_vals:
+            if sum(current_vals) > 21:
+                self.cards[[c.true_value for c in self.cards].index(11)].true_value = 1
+                current_vals = [c.true_value for c in self.cards]
+            else:
+                return sum(current_vals)
+        return(sum(current_vals))
 
     def __repr__(self):
         if self.split_cards:

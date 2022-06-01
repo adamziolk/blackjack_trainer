@@ -114,3 +114,34 @@ def test_player__double_down(player_list):
     player_list[2].cards = [custom_types.Card(2, 'D'), custom_types.Card(5, 'S'), custom_types.Card(2, 'S'), custom_types.Card(2, 'H')]
     with pytest.raises(ValueError):
         player_list[2].double_down()
+
+
+def test_player__check_aces(player_list):
+    player_list[0].cards = [custom_types.Card(10, 'D'), custom_types.Card(5, 'S')]
+    assert player_list[0]._check_aces() == False
+
+    player_list[1].cards = [custom_types.Card(1, 'D'), custom_types.Card(5, 'S')]
+    assert player_list[1]._check_aces() == True
+
+
+def test_player__hand_total(player_list):
+    player_list[0].cards = [custom_types.Card(10, 'D'), custom_types.Card(5, 'S')]
+    assert player_list[0].hand_total() == 15
+
+    player_list[1].cards = [custom_types.Card(13, 'D'), custom_types.Card(12, 'S')]
+    assert player_list[1].hand_total() == 20
+
+    player_list[2].cards = [custom_types.Card(1, 'D'), custom_types.Card(5, 'S')]
+    assert player_list[2].hand_total() == 16
+
+    player_list[0].cards = [custom_types.Card(1, 'D'), custom_types.Card(5, 'S'), custom_types.Card(1, 'H')]
+    assert player_list[0].hand_total() == 17
+
+    player_list[0].cards = [custom_types.Card(1, 'D'), custom_types.Card(1, 'S'), custom_types.Card(1, 'H'), custom_types.Card(1, 'C')]
+    assert player_list[0].hand_total() == 14
+
+    player_list[0].cards = [custom_types.Card(13, 'D'), custom_types.Card(5, 'S'), custom_types.Card(10, 'H')]
+    assert player_list[0].hand_total() == 25
+
+    player_list[0].cards = [custom_types.Card(13, 'D'), custom_types.Card(10, 'S'), custom_types.Card(1, 'H'), custom_types.Card(1, 'S')]
+    assert player_list[0].hand_total() == 22
