@@ -1,6 +1,5 @@
 import random
 from typing import Optional, Any
-from xmlrpc.client import Boolean
 
 if __package__ is None or __package__ == '':
     # uses current directory visibility
@@ -27,7 +26,7 @@ def initialize_table(players):
     return table
 
 
-def deal_player_cards(shoe, players, split_deal: Boolean=False) -> None:
+def deal_player_cards(shoe, players, split_deal=False) -> None:
     for player in players:
         if split_deal:
             player.split_cards.append(shoe.pop())
