@@ -39,13 +39,24 @@ def test_player__split(player_list):
 
     random.seed(0)
     player_list[0].cards = [custom_types.Card(12, 'H'), custom_types.Card(10, 'D')]
+    player_list[0].bet = 25
+    player_list[0].chips = 100
     player_list[0].split()
     assert player_list[0].cards == [custom_types.Card(12, 'H')]
     assert player_list[0].split_cards == [custom_types.Card(10, 'D')]
 
+    # Card values must match to split
     player_list[1].cards = [custom_types.Card(2, 'S'), custom_types.Card(4, 'H')]
     with pytest.raises(ValueError):
         player_list[1].split()
+
+    # Not enough money to split
+    player_list[2].cards = [custom_types.Card(12, 'H'), custom_types.Card(10, 'D')]
+    player_list[2].bet = 51
+    player_list[2].chips = 49
+    with pytest.raises(ValueError):
+        player_list[2].split()
+
 
 
 def test_player__split_hit(player_list):
@@ -74,3 +85,27 @@ def test_player__make_bet(player_list):
     assert player_list[1].chips == 100
     with pytest.raises(ValueError):
         player_list[1].make_bet(500)
+
+
+def test_player__double_down(player_list):
+    player_list[0].bet = 50
+    player_list[0].chips = 50
+    player_list[0].cards = [custom_types.Card(5, 'D'), custom_types.Card(5, 'S')]
+    player_list[0].double_down()
+    assert player_list[0].bet == 100
+    assert player_list[0].chips == 0
+
+    # Not enough money to double down
+    player_list[1].bet = 51
+    player_list[1].chips = 50
+    player_list[1].cards = [custom_types.Card(5, 'D'), custom_types.Card(5, 'S')]
+    with pytest.raises(ValueError):
+        player_list[1].double_down()
+
+    # Incorrect cards to double down
+    player_list[2].bet = 50
+    player_list[2].chips = 50
+    player_list[2].cards = [custom_types.Card(10, 'D'), custom_types.Card(5, 'S')]
+    with pytest.raises(ValueError):
+        player_list[2].double_down()
+

@@ -46,20 +46,30 @@ class Player:
         setup.deal_player_cards(shoe=shoe, players=[self])
 
     def _check_split(self):
-        return self.cards[0].true_value == self.cards[1].true_value
+        return (self.cards[0].true_value == self.cards[1].true_value) and (self.chips >= self.bet)
 
     def split(self):
         if self._check_split():
             self.split_cards = []
             self.split_cards.append(self.cards.pop())
+            self.bet += self.bet
+            self.chips -= self.bet
         else:
-            raise ValueError("Cards must be of the same value to split")
+            raise ValueError("Cards must be of the same value to split | insufficient funds")
 
     def split_hit(self, shoe):
         setup.deal_player_cards(shoe=shoe, players=[self], split_deal=True)
 
-    def double(self):
-        pass
+    def _check_double_down(self):
+        return (self.chips >= self.bet) and (len(self.cards) <= 3) and (sum([c.true_value for c in self.cards]) in (10, 11))
+
+    def double_down(self):
+        if self._check_double_down():
+            self.bet += self.bet
+            self.chips -= self.chips
+        else:
+            raise ValueError("Cannot double down")
+
 
     def __repr__(self):
         if self.split_cards:
