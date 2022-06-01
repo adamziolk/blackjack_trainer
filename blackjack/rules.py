@@ -8,10 +8,6 @@ else:
 
 
 def check_bust(player):
-    if not check_aces(player):
-        if sum([c.true_value for c in player.cards]) > 21:
-            return True
-        else:
-            return False
-    else: # They have an ace
-        pass
+    if player.hand_total() > 21:
+        return True
+    return False
