@@ -60,3 +60,17 @@ def test_player__split_hit(player_list):
     player_list[1].split()
     player_list[1].split_hit(shoe)
     assert target_player == player_list[1]
+
+
+def test_player__make_bet(player_list):
+    assert player_list[0].bet == 0
+    assert player_list[0].chips == 100
+
+    player_list[0].make_bet(10)
+    assert player_list[0].bet == 10
+    assert player_list[0].chips == 90
+
+    assert player_list[1].bet == 0
+    assert player_list[1].chips == 100
+    with pytest.raises(ValueError):
+        player_list[1].make_bet(500)

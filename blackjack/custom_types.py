@@ -29,10 +29,18 @@ class Shoe:
 
 
 class Player:
-    def __init__(self, id):
+    def __init__(self, id, chips=100):
         self.id = id
         self.cards = []
         self.split_cards = None
+        self.chips = chips
+        self.bet = 0
+
+    def make_bet(self, bet_size=1):
+        if bet_size > self.chips:
+            raise ValueError("Insufficient funds")
+        self.bet = bet_size
+        self.chips -= bet_size
 
     def hit(self, shoe):
         setup.deal_player_cards(shoe=shoe, players=[self])
@@ -49,6 +57,9 @@ class Player:
 
     def split_hit(self, shoe):
         setup.deal_player_cards(shoe=shoe, players=[self], split_deal=True)
+
+    def double(self):
+        pass
 
     def __repr__(self):
         if self.split_cards:
