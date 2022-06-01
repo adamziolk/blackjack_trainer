@@ -70,7 +70,6 @@ class Player:
         else:
             raise ValueError("Cannot double down")
 
-
     def __repr__(self):
         if self.split_cards:
             return f'{self.id} - {self.cards} - split: {self.split_cards}'

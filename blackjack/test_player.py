@@ -58,7 +58,6 @@ def test_player__split(player_list):
         player_list[2].split()
 
 
-
 def test_player__split_hit(player_list):
     target_player = custom_types.Player(id=1)
     target_player.cards = [custom_types.Card(12, 'H')]
@@ -109,3 +108,9 @@ def test_player__double_down(player_list):
     with pytest.raises(ValueError):
         player_list[2].double_down()
 
+    # Incorrect cards to double down
+    player_list[2].bet = 50
+    player_list[2].chips = 50
+    player_list[2].cards = [custom_types.Card(2, 'D'), custom_types.Card(5, 'S'), custom_types.Card(2, 'S'), custom_types.Card(2, 'H')]
+    with pytest.raises(ValueError):
+        player_list[2].double_down()
