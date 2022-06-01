@@ -4,31 +4,30 @@ from xmlrpc.client import Boolean
 
 if __package__ is None or __package__ == '':
     # uses current directory visibility
-    from custom_types import Shoe, Table, Card, Player
+    import custom_types
 else:
     # uses current package visibility
-    from blackjack.custom_types import Shoe, Table, Card, Player
+    import blackjack.custom_types as custom_types
 
 
-
-def make_shoe(num_decks: int=1) -> Shoe:
+def make_shoe(num_decks: int=1):
     suits = ['C', 'H', 'S', 'D']
     values = range(1, 14)
 
-    cards = [Card(v, s) for s in suits for v in values]
+    cards = [custom_types.Card(v, s) for s in suits for v in values]
     shoe = cards * num_decks
     random.shuffle(shoe)
 
     return shoe
 
 
-def initialize_table(players) -> Table:
-    table = Table(players=players)
+def initialize_table(players):
+    table = custom_types.Table(players=players)
 
     return table
 
 
-def deal_player_cards(shoe: Shoe, players, split_deal: Boolean=False) -> None:
+def deal_player_cards(shoe, players, split_deal: Boolean=False) -> None:
     for player in players:
         if split_deal:
             player.split_cards.append(shoe.pop())
@@ -38,7 +37,7 @@ def deal_player_cards(shoe: Shoe, players, split_deal: Boolean=False) -> None:
     return
 
 
-def deal_dealer_cards(table: Table, shoe: Shoe) -> None:
+def deal_dealer_cards(table, shoe) -> None:
     table.dealer_cards.append(shoe.pop())
 
     return

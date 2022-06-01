@@ -9,6 +9,7 @@ class Card:
     def __init__(self, value, suit):
         self.value = value
         self.suit = suit
+        self.true_value = 10 if value in (11, 12, 13) else value
 
     def __repr__(self):
         return f'{self.value}{self.suit}'
@@ -35,6 +36,9 @@ class Player:
 
     def hit(self, shoe):
         setup.deal_player_cards(shoe=shoe, players=[self])
+
+    def _check_split(self):
+        return self.cards[0].true_value == self.cards[1].true_value
 
     def split(self):
         self.split_cards = []
