@@ -41,8 +41,11 @@ class Player:
         return self.cards[0].true_value == self.cards[1].true_value
 
     def split(self):
-        self.split_cards = []
-        self.split_cards.append(self.cards.pop())
+        if self._check_split():
+            self.split_cards = []
+            self.split_cards.append(self.cards.pop())
+        else:
+            raise ValueError("Cards must be of the same value to split")
 
     def split_hit(self, shoe):
         setup.deal_player_cards(shoe=shoe, players=[self], split_deal=True)

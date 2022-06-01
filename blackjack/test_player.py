@@ -43,6 +43,11 @@ def test_player__split(player_list):
     assert player_list[0].cards == [custom_types.Card(12, 'H')]
     assert player_list[0].split_cards == [custom_types.Card(10, 'D')]
 
+    player_list[1].cards = [custom_types.Card(2, 'S'), custom_types.Card(4, 'H')]
+    with pytest.raises(ValueError):
+        player_list[1].split()
+
+
 def test_player__split_hit(player_list):
     target_player = custom_types.Player(id=1)
     target_player.cards = [custom_types.Card(12, 'H')]
