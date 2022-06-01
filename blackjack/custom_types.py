@@ -31,11 +31,21 @@ class Player:
     def __init__(self, id):
         self.id = id
         self.cards = []
+        self.split_cards = None
 
-    def hit(self, table, shoe):
-        setup.deal_player_cards(table=table, shoe=shoe, player=self)
+    def hit(self, shoe):
+        setup.deal_player_cards(shoe=shoe, players=[self])
+
+    def split(self):
+        self.split_cards = []
+        self.split_cards.append(self.cards.pop())
+
+    def split_hit(self, shoe):
+        setup.deal_player_cards(shoe=shoe, players=[self], split_deal=True)
 
     def __repr__(self):
+        if self.split_cards:
+            return f'{self.id} - {self.cards} - split: {self.split_cards}'
         return f'{self.id} - {self.cards}'
 
     def __eq__(self, other):
@@ -53,7 +63,7 @@ class Table:
         self.players = players
 
     def __repr__(self):
-        return f'DC: {self.dealer_cards} :: {[f"{p.id} - {p.cards}" for p in self.players]}'
+        return f'DC: {self.dealer_cards} :: {[f"{p}" for p in self.players]}'
 
     def __eq__(self, other):
         if isinstance(self, other.__class__):

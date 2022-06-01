@@ -44,7 +44,7 @@ def test_deal_player_cards__all(blank_table3, player_list):
     random.seed(0)
     shoe = setup.make_shoe()
     actual_table = setup.initialize_table(players=player_list)
-    setup.deal_player_cards(table=actual_table, shoe=shoe)
+    setup.deal_player_cards(shoe=shoe, players=player_list)
     assert target_table == actual_table
 
 
@@ -55,13 +55,13 @@ def test_deal_player_cards__single(blank_table3, player_list):
     random.seed(0)
     shoe = setup.make_shoe()
     actual_table = setup.initialize_table(players=player_list)
-    setup.deal_player_cards(table=actual_table, shoe=shoe, player=actual_table.players[1])
+    setup.deal_player_cards(shoe=shoe, players=[player_list[1]])
     assert target_table == actual_table
 
     target_table.players[0].cards = [custom_types.Card(10, 'D')]
     target_table.players[1].cards = [custom_types.Card(12, 'H'), custom_types.Card(1, 'S')]
-    setup.deal_player_cards(table=actual_table, shoe=shoe, player=actual_table.players[0])
-    setup.deal_player_cards(table=actual_table, shoe=shoe, player=actual_table.players[1])
+    setup.deal_player_cards(shoe=shoe, players=[player_list[0]])
+    setup.deal_player_cards(shoe=shoe, players=[player_list[1]])
 
     assert target_table == actual_table
 

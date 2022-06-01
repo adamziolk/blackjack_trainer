@@ -24,12 +24,34 @@ def blank_table3(player_list):
 
 
 
-def test_player__hit(blank_table3, player_list):
-    target_table = blank_table3
-    target_table.players[1].cards = [custom_types.Card(12, 'H')]
+def test_player__hit(player_list):
+    target_player = custom_types.Player(id=1)
+    target_player.cards = [custom_types.Card(12, 'H')]
 
     random.seed(0)
     shoe = setup.make_shoe()
-    actual_table = setup.initialize_table(players=player_list)
-    player_list[1].hit(actual_table, shoe)
-    assert target_table == actual_table
+    player_list[1].hit(shoe)
+    assert target_player == player_list[1]
+
+
+def test_player__split(player_list):
+    assert player_list[0].split_cards is None
+
+    random.seed(0)
+    player_list[0].cards = [custom_types.Card(12, 'H'), custom_types.Card(10, 'D')]
+    player_list[0].split()
+    assert player_list[0].cards == [custom_types.Card(12, 'H')]
+    assert player_list[0].split_cards == [custom_types.Card(10, 'D')]
+
+def test_player__split_hit(player_list):
+    target_player = custom_types.Player(id=1)
+    target_player.cards = [custom_types.Card(12, 'H')]
+    target_player.split_cards = [custom_types.Card(10, 'D'), custom_types.Card(1, 'S')]
+
+    random.seed(0)
+    shoe = setup.make_shoe()
+    player_list[1].hit(shoe)
+    player_list[1].hit(shoe)
+    player_list[1].split()
+    player_list[1].split_hit(shoe)
+    assert target_player == player_list[1]
